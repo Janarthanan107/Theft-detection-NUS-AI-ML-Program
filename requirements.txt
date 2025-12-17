@@ -1,0 +1,39 @@
+# Deep Learning
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# Computer Vision
+opencv-python>=4.8.0
+pillow>=10.0.0
+albumentations>=1.3.0
+
+# Object Detection
+ultralytics>=8.0.0
+supervision>=0.16.0
+
+# Data Science
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+scipy>=1.11.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+tqdm>=4.65.0
+
+# Video Processing
+imageio>=2.31.0
+imageio-ffmpeg>=0.4.9
+
+# Utilities
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# API and Web (optional for demo)
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# Testing
+pytest>=7.4.0

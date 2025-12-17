@@ -1,0 +1,116 @@
+# Dataset Configuration
+dataset:
+  name: "MNNIT_Shoplifting_Dataset"
+  input_resolution: [224, 224]
+  fps: 30
+  clip_length: 16  # Number of frames per clip
+  num_classes: 2  # Normal, Shoplifting
+  
+  # Paths
+  raw_videos_dir: "data/raw_videos"
+  processed_frames_dir: "data/processed_frames"
+  splits_dir: "data/splits"
+  
+  # Split ratios
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+  
+  # Optional Roboflow dataset
+  use_roboflow: false
+  roboflow_dataset_dir: "data/roboflow_theft"
+
+# Model Configuration
+models:
+  # Stream 1: Video Classifier (3D-CNN or CNN-LSTM)
+  video_classifier:
+    type: "cnn_lstm"  # Options: "cnn_lstm", "3d_cnn", "r3d"
+    backbone: "resnet18"  # Feature extractor
+    lstm_hidden_size: 256
+    lstm_num_layers: 2
+    dropout: 0.5
+    pretrained: true  # Re-enabled for production training
+    
+  # Stream 2: Object Detector
+  object_detector:
+    enabled: true
+    model: "yolov8n"  # Options: yolov8n, yolov8s, yolov8m
+    conf_threshold: 0.25
+    iou_threshold: 0.45
+    num_classes: 3  # Normal, Suspicious, Theft
+    
+  # Stream 3: Anomaly Detector
+  anomaly_detector:
+    enabled: true
+    method: "motion_stats"  # Motion-based features
+    threshold: 0.7
+    
+  # Ensemble Configuration
+  ensemble:
+    method: "soft_voting"  # Options: "soft_voting", "meta_classifier"
+    weights:
+      video_classifier: 0.5
+      object_detector: 0.3
+      anomaly_detector: 0.2
+
+# Training Configuration
+training:
+  # Video Classifier
+  video_classifier:
+    epochs: 30  # Production training
+    batch_size: 8  # Increased for real dataset
+    learning_rate: 0.001
+    optimizer: "adam"
+    scheduler: "cosine"
+    weight_decay: 0.0001
+    early_stopping_patience: 10  # More patience for real data
+    
+  # Object Detector
+  object_detector:
+    epochs: 100
+    batch_size: 16
+    learning_rate: 0.01
+    img_size: 640
+    
+  # Ensemble
+  ensemble:
+    epochs: 20
+    batch_size: 16
+    learning_rate: 0.0001
+
+# Augmentation
+augmentation:
+  horizontal_flip: 0.5
+  brightness_contrast: true
+  hue_saturation: true
+  rotation_limit: 15
+  shift_scale_rotate: true
+
+# Paths
+paths:
+  checkpoints_dir: "checkpoints"
+  logs_dir: "logs"
+  outputs_dir: "outputs"
+  
+# Hardware
+device: "cpu"  # Change to "cuda" if you have NVIDIA GPU, or "mps" for M-series Mac
+num_workers: 2  # Multiprocessing for faster data loading
+pin_memory: true
+
+# Demo Configuration
+demo:
+  input_source: "webcam"  # Options: "webcam", "video_file"
+  video_file_path: null
+  webcam_id: 0
+  display_width: 1280
+  display_height: 720
+  show_fps: true
+  save_output: true
+  output_path: "outputs/demo_output.mp4"
+  
+# Logging
+logging:
+  level: "INFO"
+  save_logs: true
+  tensorboard: true
+  wandb: false

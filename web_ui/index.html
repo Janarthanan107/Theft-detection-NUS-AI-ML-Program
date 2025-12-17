@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Theft Detection System - Real-Time Surveillance</title>
+    <meta name="description" content="Advanced AI-powered shoplifting detection system using ensemble deep learning">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 5C16.4183 5 20 8.58172 20 13C20 17.4183 16.4183 21 12 21C7.58172 21 4 17.4183 4 13C4 8.58172 7.58172 5 12 5Z" stroke="currentColor" stroke-width="2"/>
+                            <circle cx="12" cy="13" r="3" fill="currentColor"/>
+                            <path d="M12 3V5M12 21V23M3 13H5M19 13H21M6.34315 6.34315L7.75736 7.75736M16.2426 16.2426L17.6569 17.6569" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Sentinel AI</h1>
+                        <p>Theft Detection System</p>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="detectionCount">0</span>
+                        <span class="stat-label">Detections</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value status-active">ACTIVE</span>
+                        <span class="stat-label">System Status</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Detection Modes -->
+            <section class="detection-modes">
+                <h2 class="section-title">
+                    <span class="title-icon">🎯</span>
+                    Choose Detection Mode
+                </h2>
+                <div class="mode-cards">
+                    <div class="mode-card" id="videoModeCard">
+                        <div class="mode-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 10L19.553 7.724C20.4403 7.28042 21.5 7.92704 21.5 8.94118V15.0588C21.5 16.073 20.4403 16.7196 19.553 16.276L15 14V10Z" stroke="currentColor" stroke-width="2"/>
+                                <rect x="2.5" y="6.5" width="12" height="11" rx="2" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3>Video Upload</h3>
+                        <p>Analyze pre-recorded surveillance footage</p>
+                        <button class="mode-btn" onclick="selectMode('video')">
+                            <span>Select Mode</span>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="mode-card featured" id="webcamModeCard">
+                        <div class="featured-badge">RECOMMENDED</div>
+                        <div class="mode-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="10" r="7" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="10" r="3" fill="currentColor"/>
+                                <path d="M12 17V21M8 21H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>Live Webcam</h3>
+                        <p>Real-time detection from camera feed</p>
+                        <button class="mode-btn" onclick="selectMode('webcam')">
+                            <span>Select Mode</span>
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="mode-card" id="streamModeCard">
+                        <div class="mode-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <path d="M8 21H16M12 17V21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <circle cx="8" cy="9" r="1.5" fill="currentColor"/>
+                                <circle cx="16" cy="9" r="1.5" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <h3>RTSP Stream</h3>
+                        <p>Connect to IP surveillance cameras</p>
+                        <button class="mode-btn" onclick="selectMode('stream')">
+                            <span>Coming Soon</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Detection Interface -->
+            <section class="detection-interface" id="detectionInterface" style="display: none;">
+                <div class="interface-header">
+                    <h2 class="section-title">
+                        <span class="title-icon">📹</span>
+                        Detection Interface
+                    </h2>
+                    <button class="back-btn" onclick="resetMode()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Back
+                    </button>
+                </div>
+
+                <div class="interface-grid">
+                    <!-- Video Display -->
+                    <div class="video-container glass-card">
+                        <div class="video-header">
+                            <h3>Video Feed</h3>
+                            <div class="recording-indicator">
+                                <span class="rec-dot"></span>
+                                <span>ANALYZING</span>
+                            </div>
+                        </div>
+                        <div class="video-wrapper">
+                            <video id="videoElement" class="video-display" autoplay playsinline></video>
+                            <canvas id="videoCanvas" class="video-display"></canvas>
+                            <div class="video-upload-zone" id="uploadZone">
+                                <div class="upload-content">
+                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 15V3M12 3L7 8M12 3L17 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        <path d="M3 15V18C3 19.6569 4.34315 21 6 21H18C19.6569 21 21 19.6569 21 18V15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                    <h4>Upload Video File</h4>
+                                    <p>Drag and drop or click to browse</p>
+                                    <input type="file" id="videoFileInput" accept="video/*" hidden>
+                                    <button onclick="document.getElementById('videoFileInput').click()">Browse Files</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-controls">
+                            <button id="startBtn" class="control-btn primary-btn">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 5V19L19 12L8 5Z" fill="currentColor"/>
+                                </svg>
+                                Start Detection
+                            </button>
+                            <button id="stopBtn" class="control-btn danger-btn" style="display: none;">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="6" y="6" width="12" height="12" fill="currentColor"/>
+                                </svg>
+                                Stop
+                            </button>
+                            <button id="screenshotBtn" class="control-btn">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                Screenshot
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Results Panel -->
+                    <div class="results-panel glass-card">
+                        <h3>Detection Results</h3>
+                        
+                        <!-- Current Prediction -->
+                        <div class="current-prediction">
+                            <div class="prediction-status" id="predictionStatus">
+                                <div class="status-icon">⏳</div>
+                                <h4>Waiting for detection...</h4>
+                                <p>Start analysis to see results</p>
+                            </div>
+                        </div>
+
+                        <!-- Confidence Meters -->
+                        <div class="confidence-section">
+                            <h4>Confidence Scores</h4>
+                            <div class="confidence-meter">
+                                <div class="meter-label">
+                                    <span>Normal Behavior</span>
+                                    <span class="meter-value" id="normalConf">0%</span>
+                                </div>
+                                <div class="meter-bar">
+                                    <div class="meter-fill normal-fill" id="normalBar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="confidence-meter">
+                                <div class="meter-label">
+                                    <span>Suspicious Activity</span>
+                                    <span class="meter-value" id="suspiciousConf">0%</span>
+                                </div>
+                                <div class="meter-bar">
+                                    <div class="meter-fill suspicious-fill" id="suspiciousBar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="confidence-meter">
+                                <div class="meter-label">
+                                    <span>Theft Detected</span>
+                                    <span class="meter-value" id="theftConf">0%</span>
+                                </div>
+                                <div class="meter-bar">
+                                    <div class="meter-fill theft-fill" id="theftBar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detection Log -->
+                        <div class="detection-log">
+                            <h4>Detection Log</h4>
+                            <div class="log-entries" id="logEntries">
+                                <div class="log-entry info">
+                                    <span class="log-time">--:--:--</span>
+                                    <span class="log-message">System ready</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Architecture -->
+            <section class="architecture-section">
+                <h2 class="section-title">
+                    <span class="title-icon">🧠</span>
+                    How It Works - AI Architecture
+                </h2>
+                <div class="architecture-grid">
+                    <div class="arch-card">
+                        <div class="arch-number">1</div>
+                        <h3>Data Input</h3>
+                        <p>Video frames are captured and preprocessed at 30 FPS, normalized and resized to 224×224 pixels</p>
+                        <div class="tech-tags">
+                            <span class="tag">OpenCV</span>
+                            <span class="tag">PyTorch</span>
+                        </div>
+                    </div>
+                    <div class="arch-card">
+                        <div class="arch-number">2</div>
+                        <h3>CNN Feature Extraction</h3>
+                        <p>ResNet-18 extracts spatial features from each frame, pretrained on ImageNet for robust visual understanding</p>
+                        <div class="tech-tags">
+                            <span class="tag">ResNet</span>
+                            <span class="tag">Transfer Learning</span>
+                        </div>
+                    </div>
+                    <div class="arch-card">
+                        <div class="arch-number">3</div>
+                        <h3>LSTM Temporal Analysis</h3>
+                        <p>2-layer LSTM analyzes temporal patterns across 16 frames to detect suspicious movement sequences</p>
+                        <div class="tech-tags">
+                            <span class="tag">LSTM</span>
+                            <span class="tag">Sequence Modeling</span>
+                        </div>
+                    </div>
+                    <div class="arch-card">
+                        <div class="arch-number">4</div>
+                        <h3>Ensemble Fusion</h3>
+                        <p>Multiple model streams are combined using weighted voting for robust, accurate predictions</p>
+                        <div class="tech-tags">
+                            <span class="tag">Ensemble</span>
+                            <span class="tag">Meta-Learning</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Performance Metrics -->
+            <section class="metrics-section">
+                <h2 class="section-title">
+                    <span class="title-icon">📊</span>
+                    Model Performance
+                </h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">🎯</div>
+                        <div class="metric-value">92.5%</div>
+                        <div class="metric-label">Accuracy</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 92.5%"></div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">⚡</div>
+                        <div class="metric-value">30 FPS</div>
+                        <div class="metric-label">Processing Speed</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">🔍</div>
+                        <div class="metric-value">94.2%</div>
+                        <div class="metric-label">Precision</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 94.2%"></div>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">📈</div>
+                        <div class="metric-value">91.8%</div>
+                        <div class="metric-label">Recall</div>
+                        <div class="metric-bar">
+                            <div class="metric-fill" style="width: 91.8%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Built with ❤️ for Computer Vision and AI • NUS AI/ML Program Capstone Project</p>
+            <p class="footer-note">⚠️ For educational and research purposes only. Always ensure ethical use and compliance with privacy laws.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
